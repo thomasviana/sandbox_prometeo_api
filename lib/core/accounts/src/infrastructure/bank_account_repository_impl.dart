@@ -23,12 +23,12 @@ class BankAccountRepositoryImpl implements BankAccountRepository {
         },
       );
       final status = jsonDecode(response.body)['status'] as String;
-      final parsed = jsonDecode(response.body)['accounts'] as List;
-      final bankAccounts = parsed.map((e) => BankAccount.fromMap(e)).toList();
-      if (status == 'success') {
-        return some(bankAccounts);
-      } else {
+      if (status == 'error') {
         return const None();
+      } else {
+        final parsed = jsonDecode(response.body)['accounts'] as List;
+        final bankAccounts = parsed.map((e) => BankAccount.fromMap(e)).toList();
+        return some(bankAccounts);
       }
     } catch (error) {
       throw Exception('Error getting posts from server: $error');

@@ -20,10 +20,16 @@ class BankAccountsBloc extends Bloc<BankAccountsEvent, BankAccountsState> {
     UserBankAccountsRequested event,
     Emitter<BankAccountsState> emit,
   ) async {
+    emit(state.copyWith(isError: false, isLoading: true));
     final userAccounts =
         await accountRepository.getUserBankAccounts(event.authKey);
     userAccounts.fold(
-      () => emit(state.copyWith(isError: true)),
+      () => emit(
+        state.copyWith(
+          isError: true,
+          isLoading: false,
+        ),
+      ),
       (accounts) => emit(
         state.copyWith(
           bankAccounts: accounts,
