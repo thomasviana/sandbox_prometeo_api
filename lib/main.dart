@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sandbox_prometeo/core/accounts/application.dart';
 import 'package:sandbox_prometeo/dependency_injection.dart';
 import 'package:sandbox_prometeo/presentation/router/router.dart';
 
@@ -17,9 +18,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          sl<AuthBloc>()..add(AuthRequiredParametersRequested()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              sl<AuthBloc>()..add(AuthRequiredParametersRequested()),
+        ),
+        BlocProvider(
+          create: (context) => sl<BankAccountsBloc>(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Sandbox Prometeo',
         debugShowCheckedModeBanner: false,
