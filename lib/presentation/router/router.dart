@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sandbox_prometeo/presentation/screens/accounts_screen.dart';
 import 'package:sandbox_prometeo/presentation/screens/auth_screen.dart';
+import 'package:sandbox_prometeo/presentation/screens/bank_products_screen.dart';
 import 'package:sandbox_prometeo/presentation/screens/movements_screen.dart';
 
 class AppRouter {
@@ -14,12 +14,14 @@ class AppRouter {
         return _buildRoute(const AuthScreen());
 
       case ACCOUNTS_SCREEN:
-        return _buildRoute(const AccountsScreen());
+        return _buildRoute(const BankProductsScreen());
 
       case MOVEMENTS_SCREEN:
-        final argument = settings.arguments! as String;
+        final arguments = settings.arguments! as List;
         return _buildRoute(MovementsScreen(
-          accountNumber: argument,
+          productType: arguments[0],
+          productNumber: arguments[1],
+          currency: arguments[2],
         ));
 
       default:

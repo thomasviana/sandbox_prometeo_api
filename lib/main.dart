@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:sandbox_prometeo/dependency_injection.dart';
 import 'package:sandbox_prometeo/presentation/router/router.dart';
 
-import 'core/accounts/application.dart';
 import 'core/auth/application.dart';
+import 'core/bank_products/application.dart';
 import 'core/movements/application.dart';
 
 Future<void> main() async {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
               sl<AuthBloc>()..add(AuthRequiredParametersRequested()),
         ),
         BlocProvider(
-          create: (context) => sl<BankAccountsBloc>(),
+          create: (context) => sl<BankProductsBloc>(),
         ),
         BlocProvider(
           create: (context) => sl<MovementsBloc>(),

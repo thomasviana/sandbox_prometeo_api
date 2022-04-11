@@ -15,15 +15,19 @@ class MovementRepositoryImpl implements MovementRepository {
   @override
   Future<Either<ErrorDescription, List<Movement>>> getMovements(
       MovementsReqParams requiredParams) async {
+    final movementQuery =
+        requiredParams.productType == 'account' ? 'movement/' : 'movements';
+    final currencyQuery = requiredParams.currency.isNotEmpty
+        ? 'currency=${requiredParams.currency}'
+        : '';
     try {
       final response = await http.get(
         Uri.parse(
           prometeoUrl +
-              '/account/${requiredParams.accountNumber}/movement/?key=${requiredParams.authKey}&currency=${requiredParams.currency}&date_start=${requiredParams.dateStart}&date_end=${requiredParams.dateEnd}',
+              '/${requiredParams.productType}/${requiredParams.productNumber}/$movementQuery?key=${requiredParams.authKey}&$currencyQuery&date_start=${requiredParams.dateStart}&date_end=${requiredParams.dateEnd}',
         ),
         headers: <String, String>{
           'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
           'X-API-Key': prometeoApiKey,
         },
       );

@@ -7,10 +7,14 @@ import 'package:sandbox_prometeo/core/movements/domain.dart';
 import '../../core/auth/application.dart';
 
 class MovementsScreen extends StatefulWidget {
-  final String accountNumber;
+  final String productType;
+  final String productNumber;
+  final String currency;
   const MovementsScreen({
     Key? key,
-    required this.accountNumber,
+    required this.productType,
+    required this.productNumber,
+    required this.currency,
   }) : super(key: key);
 
   @override
@@ -27,9 +31,10 @@ class _MovementsScreenState extends State<MovementsScreen> {
       ..add(
         MovementsRequested(
           requiredParams: MovementsReqParams(
-            accountNumber: widget.accountNumber,
+            productType: widget.productType,
+            productNumber: widget.productNumber,
             authKey: authKey,
-            currency: 'UYU',
+            currency: widget.currency,
             dateStart: '01/01/2020',
             dateEnd: '05/01/2020',
           ),
@@ -66,11 +71,14 @@ class _MovementsScreenState extends State<MovementsScreen> {
                 );
               } else if (state.isError) {
                 return Center(
-                  child: Column(
-                    children: [
-                      const Text('Error: '),
-                      Text(state.errorMessage),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        const Text('Error:'),
+                        Text(state.errorMessage),
+                      ],
+                    ),
                   ),
                 );
               } else {

@@ -23,7 +23,8 @@ class MovementsBloc extends Bloc<MovementsEvent, MovementsState> {
     emit(state.copyWith(isError: false, isLoading: true));
     final optionMovements =
         await movementRepository.getMovements(MovementsReqParams(
-      accountNumber: event.requiredParams.accountNumber,
+      productType: event.requiredParams.productType,
+      productNumber: event.requiredParams.productNumber,
       authKey: event.requiredParams.authKey,
       currency: event.requiredParams.currency,
       dateStart: event.requiredParams.dateStart,

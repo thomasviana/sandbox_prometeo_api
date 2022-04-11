@@ -31,7 +31,7 @@ class Movement {
       detail: map['detail'] ?? '',
       date: map['date'] ?? '',
       amount: (map['credit'].toString()).isEmpty
-          ? map['debit'] ?? 0.0
+          ? map['debit'] * -1 ?? 0.0
           : map['credit'] ?? 0.0,
       reference: map['reference'] ?? '',
     );
