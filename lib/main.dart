@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sandbox_prometeo/core/accounts/application.dart';
 import 'package:sandbox_prometeo/dependency_injection.dart';
 import 'package:sandbox_prometeo/presentation/router/router.dart';
 
+import 'core/accounts/application.dart';
 import 'core/auth/application.dart';
+import 'core/movements/application.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<BankAccountsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<MovementsBloc>(),
         ),
       ],
       child: MaterialApp(

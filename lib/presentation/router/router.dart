@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sandbox_prometeo/presentation/screens/accounts_screen.dart';
 import 'package:sandbox_prometeo/presentation/screens/auth_screen.dart';
-import 'package:sandbox_prometeo/presentation/screens/transactions_screen.dart';
+import 'package:sandbox_prometeo/presentation/screens/movements_screen.dart';
 
 class AppRouter {
   static const AUTH_SCREEN = '/';
   static const ACCOUNTS_SCREEN = '/accounts';
-  static const TRANSACTIONS_SCREEN = '/transactions';
+  static const MOVEMENTS_SCREEN = '/movements';
 
   static Route routes(RouteSettings settings) {
     switch (settings.name) {
@@ -16,8 +16,11 @@ class AppRouter {
       case ACCOUNTS_SCREEN:
         return _buildRoute(const AccountsScreen());
 
-      case TRANSACTIONS_SCREEN:
-        return _buildRoute(const TransactionsScreen());
+      case MOVEMENTS_SCREEN:
+        final argument = settings.arguments! as String;
+        return _buildRoute(MovementsScreen(
+          accountNumber: argument,
+        ));
 
       default:
         throw ('This raoute name does not exist');

@@ -37,7 +37,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          print(state.authKey);
           if (state.status == LinkStatus.unlinked) {
             Navigator.pop(context);
           } else {}
@@ -61,6 +60,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       title: Text(account.name),
                       subtitle: Text(account.number),
                       trailing: Text(account.balance.toCurrencyFormat()),
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        '/movements',
+                        arguments: account.number,
+                      ),
                     );
                   }),
                   separatorBuilder: (context, index) =>
