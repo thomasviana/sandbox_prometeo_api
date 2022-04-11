@@ -44,7 +44,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           username: state.username,
           password: state.password,
         )), onData: (authResponse) {
-      print(authResponse.authKey);
       authResponse.status == 'logged_in'
           ? emit(state.copyWith(
               status: LinkStatus.linked,

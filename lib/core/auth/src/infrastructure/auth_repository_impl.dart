@@ -9,7 +9,7 @@ import '../../domain.dart';
 @LazySingleton(as: AuthRepository)
 class AuthRepositoryImpl implements AuthRepository {
   static const String prometeoUrl = 'https://banking.sandbox.prometeoapi.com';
-  static const String primeteoApiKey = PROMETEO_API_KEY;
+  static const String prometeoApiKey = PROMETEO_API_KEY;
 
   @override
   Future<RequiredParameters> getRequiredParameters(String bank) async {
@@ -19,7 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
         headers: <String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'X-API-Key': primeteoApiKey,
+          'X-API-Key': prometeoApiKey,
         },
       );
       final parsed = jsonDecode(response.body);
@@ -38,7 +38,7 @@ class AuthRepositoryImpl implements AuthRepository {
         headers: <String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/x-www-form-urlencoded',
-          'X-API-Key': primeteoApiKey,
+          'X-API-Key': prometeoApiKey,
         },
         body: {
           'provider': credentials.provider,
@@ -56,14 +56,13 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logOut() async {
     try {
-      final response = await http.get(
+      await http.get(
         Uri.parse(prometeoUrl + '/logout/'),
         headers: <String, String>{
           'Accept': 'application/json',
-          'X-API-Key': primeteoApiKey,
+          'X-API-Key': prometeoApiKey,
         },
       );
-      print(response.statusCode);
     } catch (error) {
       throw Exception('Error getting posts from server: $error');
     }
