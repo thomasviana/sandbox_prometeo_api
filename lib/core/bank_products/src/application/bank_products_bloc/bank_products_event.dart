@@ -1,6 +1,5 @@
-part of 'bank_accounts_bloc.dart';
+part of 'bank_products_bloc.dart';
 
-@immutable
 abstract class BankAccountsEvent {}
 
 class UserBankAccountsRequested extends BankAccountsEvent {
