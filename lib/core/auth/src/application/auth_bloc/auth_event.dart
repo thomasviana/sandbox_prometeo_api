@@ -2,7 +2,12 @@ part of 'auth_bloc.dart';
 
 abstract class AuthEvent {}
 
-class AuthRequiredParametersRequested extends AuthEvent {}
+class AuthRequiredParametersRequested extends AuthEvent {
+  final String bank;
+  AuthRequiredParametersRequested({
+    required this.bank,
+  });
+}
 
 class AuthStatusRequested extends AuthEvent {}
 
@@ -15,16 +20,11 @@ class ProviderChanged extends AuthEvent {
   });
 }
 
-class UsernameChanged extends AuthEvent {
-  final String username;
-  UsernameChanged({
-    required this.username,
-  });
-}
-
-class PasswordChanged extends AuthEvent {
-  final String password;
-  PasswordChanged({
-    required this.password,
+class AuthFieldChanged extends AuthEvent {
+  final String fieldName;
+  final String value;
+  AuthFieldChanged({
+    required this.fieldName,
+    required this.value,
   });
 }

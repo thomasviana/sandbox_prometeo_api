@@ -16,20 +16,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRequiredParametersRequested>(_onAuthRequiredParametersRequested);
     on<AuthStatusRequested>(_onAuthStatusRequested);
     on<ProviderChanged>(_onProviderChanged);
-    on<UsernameChanged>(_onUsernameChanged);
-    on<PasswordChanged>(_onPasswordChanged);
+    on<AuthFieldChanged>(_onAuthFieldChanged);
     on<LogoutRequested>(_onLogoutRequested);
   }
+  List<AuthField> _authFields = [];
 
   Future<void> _onAuthRequiredParametersRequested(
     AuthRequiredParametersRequested event,
     Emitter<AuthState> emit,
   ) async {
-    final requiredParameters =
-        await authRepository.getRequiredParameters('test');
+    await authRepository.getAuthFields('test').then(
+          (value) =>
+              value..fold(() {}, (authFields) => _authFields = authFields),
+        );
     emit(state.copyWith(
-      authFields: requiredParameters.authFields,
-      provider: requiredParameters.name,
+      authFields: _authFields,
+      provider: 'test',
       isLoading: false,
     ));
   }
@@ -38,12 +40,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthStatusRequested event,
     Emitter<AuthState> emit,
   ) async {
+    print(_authFields.map((authField) => authField.value).toList());
     await emit.onEach<AuthResponse>(
-        authRepository.checkAuthStatus(Credentials(
-          provider: 'test',
-          username: state.username,
-          password: state.password,
-        )), onData: (authResponse) {
+        authRepository.checkAuthStatus(
+          _authFields.map((authField) => authField.value).toList(),
+        ), onData: (authResponse) {
       authResponse.status == 'logged_in'
           ? emit(state.copyWith(
               status: LinkStatus.linked,
@@ -60,18 +61,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(provider: event.provider));
   }
 
-  Future<void> _onUsernameChanged(
-    UsernameChanged event,
+  Future<void> _onAuthFieldChanged(
+    AuthFieldChanged event,
     Emitter<AuthState> emit,
   ) async {
-    emit(state.copyWith(username: event.username));
-  }
-
-  Future<void> _onPasswordChanged(
-    PasswordChanged event,
-    Emitter<AuthState> emit,
-  ) async {
-    emit(state.copyWith(password: event.password));
+    _authFields = _authFields
+        .map((field) => field.name == event.fieldName
+            ? field.copyWith(value: event.value)
+            : field)
+        .toList();
+    emit(state.copyWith(authFields: _authFields));
   }
 
   void _onLogoutRequested(LogoutRequested event, Emitter<AuthState> emit) {
