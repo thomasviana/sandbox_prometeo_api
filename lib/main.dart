@@ -22,8 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              sl<AuthBloc>()..add(AuthRequiredParametersRequested()),
+          create: (context) => sl<AuthBloc>(),
         ),
         BlocProvider(
           create: (context) => sl<BankProductsBloc>(),

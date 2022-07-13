@@ -3,8 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/auth/application.dart';
 
-class AuthScreen extends StatelessWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+class AuthScreen extends StatefulWidget {
+  final String bank;
+  const AuthScreen({
+    Key? key,
+    required this.bank,
+  }) : super(key: key);
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  late AuthBloc authBloc;
+
+  @override
+  void initState() {
+    authBloc = context.read<AuthBloc>()
+      ..add(AuthRequiredParametersRequested(bank: widget.bank));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,39 +44,31 @@ class AuthScreen extends StatelessWidget {
           } else {
             return Column(
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(16.0),
-                //   child: ListView.separated(
-                //     shrinkWrap: true,
-                //     separatorBuilder: (context, index) => const SizedBox(height: 16),
-                //     itemCount: state.authFields.length,
-                //     itemBuilder: ((context, index) {
-                //       return Column(
-                //         children: [
-                //           AuthTextField(
-                //             hintText: state.authFields[index].labelEs,
-                //             onChanged: (value) {},
-                //           ),
-                //         ],
-                //       );
-                //     }),
-                //   ),
-                // ),
-                const SizedBox(height: 24),
-                AuthTextField(
-                  hintText: state.authFields[0].labelEs,
-                  onChanged: (username) => context
-                      .read<AuthBloc>()
-                      .add(UsernameChanged(username: username)),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 8.0),
+                    itemCount: state.authFields.length,
+                    itemBuilder: ((context, index) {
+                      final field = state.authFields[index];
+                      return Column(
+                        children: [
+                          AuthTextField(
+                            hintText: field.labelEn,
+                            onChanged: (value) => context.read<AuthBloc>().add(
+                                  AuthFieldChanged(
+                                    fieldName: field.name,
+                                    value: value,
+                                  ),
+                                ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
                 ),
-
-                AuthTextField(
-                  hintText: state.authFields[1].labelEs,
-                  onChanged: (password) => context
-                      .read<AuthBloc>()
-                      .add(PasswordChanged(password: password)),
-                ),
-                const SizedBox(height: 24),
                 ElevatedButton(
                     onPressed: () =>
                         context.read<AuthBloc>().add(AuthStatusRequested()),
