@@ -1,17 +1,18 @@
+
 # sandbox_prometeo
 
-A new Flutter project.
+This example app interacts with prometeo API to link an app to bank accounts in Latin America.
 
-## Getting Started
+| Select Bank Screen.   | Login Screen (Bank Auth Fields)  | Login Screen (Filled form)  | 
+| :-------------------- | :------------------------------- | :-------------------------- | 
+| <img src="preview/select_bank_screen.png" width="225"/> | <img src="preview/login_screen_1.png" width="225"/> | <img src="preview/login_screen_2.png" width="225"/> | 
 
-This project is a starting point for a Flutter application.
+| User Bank Accounts Screen | Movements Screen.                |
+| :------------------------ | :------------------------------- |
+| <img src="preview/accounts_screen.png" width="225"/> | <img src="preview/movements_screen.png" width="225"/> |
 
-A few resources to get you started if this is your first Flutter project:
+# About open banking
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Around the world, Open Banking is rapidly transforming the way that financial institutions operate. It increases transparency and opens up to new product opportunities, with banks sharing information in a secure, standardized format to authorized organizations. With Fintech companies having been on the forefront of the Open Banking movement in the past, traditional institutions have begun to seize the opportunities created by Open Banking.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # sandbox_prometeo_api
