@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class AuthField {
   final String name;
   final String type;
@@ -7,6 +5,7 @@ class AuthField {
   final bool optional;
   final String labelEs;
   final String labelEn;
+  final String value;
 
   AuthField({
     required this.name,
@@ -15,6 +14,7 @@ class AuthField {
     required this.optional,
     required this.labelEs,
     required this.labelEn,
+    this.value = '',
   });
 
   AuthField copyWith({
@@ -24,6 +24,7 @@ class AuthField {
     bool? optional,
     String? labelEs,
     String? labelEn,
+    String? value,
   }) {
     return AuthField(
       name: name ?? this.name,
@@ -32,18 +33,8 @@ class AuthField {
       optional: optional ?? this.optional,
       labelEs: labelEs ?? this.labelEs,
       labelEn: labelEn ?? this.labelEn,
+      value: value ?? this.value,
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'type': type,
-      'interactive': interactive,
-      'optional': optional,
-      'label_es': labelEs,
-      'label_en': labelEn,
-    };
   }
 
   factory AuthField.fromMap(Map<String, dynamic> map) {
@@ -56,9 +47,4 @@ class AuthField {
       labelEn: map['label_en'] ?? '',
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory AuthField.fromJson(String source) =>
-      AuthField.fromMap(json.decode(source));
 }
